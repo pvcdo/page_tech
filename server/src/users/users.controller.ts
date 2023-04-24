@@ -3,7 +3,7 @@ import { Controller, Get } from '@nestjs/common';
 @Controller('users')
 export class UsersController {
   @Get()
-  getHello(): string {
-    return 'este é um usuário';
+  getUsers(): string {
+    return 'este são todos os usuários';
   }
 }
