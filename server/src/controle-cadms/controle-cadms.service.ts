@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Res } from '@nestjs/common';
 import { CreateControleCadmDto } from './dto/create-controle-cadm.dto';
 import { UpdateControleCadmDto } from './dto/update-controle-cadm.dto';
 import { PrismaService } from 'src/prisma.service';
@@ -10,13 +10,24 @@ export class ControleCadmsService {
   async create(data: Prisma.controle_cadmsCreateInput): Promise<string> {
     return this.prisma.controle_cadms.create({
       data,
-    }).then(() => {
-      return "sigesp cadastrado com sucesso!"
-    });
+    })
+      .then(() => {
+        return "sigesp cadastrado com sucesso!"
+      })
+      .catch((err) => {
+        return err.message
+      })
+    ;
   }
 
   findAll() {
     return this.prisma.controle_cadms.findMany()
+      .then((res) => {
+        if(res.length === 0){
+          return "Não há nenhum sigesp cadastrado"
+        }
+        return res
+      })
   }
 
   findOne(id: number) {
