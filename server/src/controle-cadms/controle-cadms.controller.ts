@@ -9,6 +9,10 @@ export class ControleCadmsController {
 
   @Post()
   create(@Body() createControleCadmDto: CreateControleCadmDto) {
+    const {sigesp} = createControleCadmDto
+    if(!sigesp){
+      return "É necessário o fornecimento do SIGESP"
+    }
     return this.controleCadmsService.create(createControleCadmDto)
   }
 

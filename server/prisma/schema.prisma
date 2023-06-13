@@ -11,12 +11,16 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String               @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   email     String
   password  String
-  //actions   historicoStatusCDC[]
-  createdAt DateTime @default(now())
+  statusSeted   historicoStatusCDC[]
+  aditivosSeted aditivos[]
+  anotacoesAnaliseSeted anotacoesAnalise[]
+  anotacoesSelecaoSeted anotacoesSelecao[]
+  anotacoesManutencaoSeted anotacoesManutencao[]
+  createdAt DateTime             @default(now())
 }
 
 model DiepService {
@@ -28,22 +32,105 @@ model DiepService {
 }
 
 model historicoStatusCDC {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
-  //author       User           @relation(fields: [authorId], references: [id])
-  //sigesp       controle_cadms @relation(fields: [sigespNumero], references: [sigesp])
-  sigespNumero String
-  authorId     String @db.ObjectId
-  status       String
-  description  String
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  status         String
+  description    String
+  controle_cadms controle_cadms? @relation(fields: [sigesp], references: [sigesp])
+  sigesp         String         
+  User           User           @relation(fields: [userId], references: [id])
+  userId         String         @db.ObjectId
+}
+
+model aditivos{
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  data_inicio DateTime
+  data_fim DateTime
+  controle_cadms controle_cadms @relation(fields: [sigesp], references: [sigesp])
+  sigesp         String
+  responsavel User @relation(fields: [userId], references: [id])
+  userId         String         @db.ObjectId
+}
+
+model anotacoesAnalise{
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  controle_cadms controle_cadms @relation(fields: [sigesp], references: [sigesp])
+  sigesp         String
+  responsavel User @relation(fields: [userId], references: [id])
+  userId         String         @db.ObjectId
+}
+
+model anotacoesSelecao{
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  controle_cadms controle_cadms @relation(fields: [sigesp], references: [sigesp])
+  sigesp         String
+  responsavel User @relation(fields: [userId], references: [id])
+  userId         String         @db.ObjectId
+}
+
+model anotacoesManutencao{
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  controle_cadms controle_cadms @relation(fields: [sigesp], references: [sigesp])
+  sigesp         String
+  responsavel User @relation(fields: [userId], references: [id])
+  userId         String         @db.ObjectId
 }
 
 model controle_cadms {
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
-  sigesp        String @unique
-  //status        historicoStatusCDC[]
-  status        String
-  cargo         String
-  especialidade String
-  carga_horaria Float
-  unidade       String
+  id            String               @id @default(auto()) @map("_id") @db.ObjectId
+  sigesp        String              @unique
+  status        historicoStatusCDC[]
+  cargo         String?
+  especialidade String?
+  carga_horaria Float?
+  unidade       String?
+  DATA_DE_ABERTURA_DA_VAGA  DateTime?
+  DATA_DE_ABERTURA_DO_SIGESP DateTime?
+  ESPECIALIDADE_2 String?
+  HORARIO DateTime?
+  EQUIPE String?
+  REGIONAL String?
+  CLASS_UNIDADE String?
+  AREA_ATUACAO String?
+  origem_autor_id        String?
+  DESTINATARIO_autor_id String?
+  DATA_DO_ENCAMINHAMENTO DateTime?
+  PROFISSIONAL_A_SER_SUBSTITUIDO String?
+  VINCULO_PROFISSIONAL_SUBSTUIDO String?
+  MOTIVO_DA_CONTRATACAO String?
+  TIPO_VAGA String?
+  VAGA_ABC Boolean?
+  VAGA_TRANSFERENCIA Boolean?
+  ANOTACOES_ANALISE anotacoesAnalise[]
+  DATA_TRAMITACAO_ANALISE DateTime?
+  MOTIVO_TRAMITACAO_ANALISE String?
+  ETAPA_SIGESP String?
+  IMPACTO_FINANCEIRO Boolean?
+  PROFISSIONAL_SELECIONADO String?
+  N_DESISTENCIAS Int?
+  DATA_DA_REALIZACAO_DO_AGENDAMENTO DateTime?
+  DATA_PREVISTA_PARA_ASSINATURA_DE_CONTRATO DateTime?
+  STATUS_DA_VAGA_SELECAO String?
+  ANOTACOES_SELECAO anotacoesSelecao[]
+  ATENDIMENTO_autor_id String?
+  CPF Int?
+  NOME_DO_PROFISSIONAL String?
+  MATRICULA String?
+  ESPECIALIDADE_CONTRATADO String?
+  N_OPUS String?
+  TIPO_DE_CONTRATO String?
+  DATA_DE_ASSINATURA DateTime?
+  DATA_INICIO_CONTRATO DateTime?
+  PRAZO_DE_CONTRATACAO Int?
+  DATA_VENCIMENTO_CONTRATO_INICIAL DateTime?
+  aditivos aditivos[]
+  ULTIMO_DIA_TRABALHADO DateTime?
+  DISTRITO String?
+  CARGA_HORARIA_MANUTENCAO Int?
+  STATUS_CONTRATO String?
+  SITUACAO_PROCESSO String?
+  MOTIVO_TRAMITACAO String?
+  LOCALIZACAO_PROCESSO String?
+  DATA_TRAMITACAO DateTime?
+  responsavel_pos_autor_id String?
+  ANOTACOES_MANUTENCAO anotacoesManutencao[]
 }
