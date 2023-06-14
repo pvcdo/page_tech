@@ -2,7 +2,7 @@ import { Injectable, Res } from '@nestjs/common';
 import { CreateControleCadmDto } from './dto/create-controle-cadm.dto';
 import { UpdateControleCadmDto } from './dto/update-controle-cadm.dto';
 import { PrismaService } from 'src/prisma.service';
-import { Prisma, controle_cadms } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ControleCadmsService {

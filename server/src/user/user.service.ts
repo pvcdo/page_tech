@@ -10,7 +10,13 @@ export class UserService {
   async create(data: Prisma.UserCreateInput): Promise<User> {
     return this.prisma.user.create({
       data,
-    });
+    })
+      .then(() => {
+        return "Usuário cadastrado com sucesso"
+      })
+      .catch((e) => {
+        return e
+      })
   }
 
   findAll() {
